@@ -1,0 +1,22 @@
+# https://docs.docker.com/compose/gettingstarted/
+# https://docs.docker.com/compose/environment-variables/
+
+services:
+  web:
+    image: "mcr.microsoft.com/dotnet/sdk:10.0"
+    tty: true
+    environment:
+      SQLSERVER: "Server=db;User Id=sa;Password=Mypassword12345*;Encrypt=false;Trusted_Connection=False;"
+    ports:
+      - "3000:5000"
+    depends_on:
+      - db
+    volumes:
+      - "$PWD:/home/app"
+  db:
+    image: "mcr.microsoft.com/mssql/server:2019-CU13-ubuntu-20.04"
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "Mypassword12345*"
+    ports:
+      - "1433:1433"

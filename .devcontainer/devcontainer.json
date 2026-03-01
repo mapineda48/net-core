@@ -1,0 +1,68 @@
+{
+  "name": "Net Core Dev",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "app",
+  "workspaceFolder": "/workspaces/net-core",
+  "shutdownAction": "stopCompose",
+
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "[csharp]": {
+          "editor.defaultFormatter": "ms-dotnettools.csharp"
+        },
+        "typescript.preferences.importModuleSpecifier": "relative",
+        "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
+        "terminal.integrated.defaultProfile.linux": "bash"
+      },
+      "extensions": [
+        // C# / .NET (official Microsoft)
+        "ms-dotnettools.csharp",
+        "ms-dotnettools.csdevkit",
+
+        // TypeScript / JavaScript
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+
+        // SQL Server (official Microsoft)
+        "ms-mssql.mssql",
+
+        // Docker (official Microsoft)
+        "ms-azuretools.vscode-docker",
+
+        // Git
+        "eamodio.gitlens",
+
+        // General utilities
+        "streetsidesoftware.code-spell-checker",
+        "editorconfig.editorconfig",
+
+        // GitHub Actions (official GitHub)
+        "github.vscode-github-actions"
+      ]
+    }
+  },
+
+  "forwardPorts": [5000, 3000],
+
+  "portsAttributes": {
+    "5000": {
+      "label": "App (.NET)",
+      "onAutoForward": "openBrowser"
+    },
+    "3000": {
+      "label": "React dev server",
+      "onAutoForward": "notify"
+    }
+  },
+
+  "remoteUser": "vscode",
+
+  "postCreateCommand": "sudo rm -rf /workspaces/net-core/obj /workspaces/net-core/bin",
+
+  "remoteEnv": {
+    "SQLSERVER": "Server=db;User Id=sa;Password=Mypassword12345*;Encrypt=false;Trusted_Connection=False;"
+  }
+}

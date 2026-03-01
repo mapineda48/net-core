@@ -1,0 +1,34 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ..:/workspaces/net-core:cached
+    command: sleep infinity
+    environment:
+      SQLSERVER: "Server=db;User Id=sa;Password=Mypassword12345*;Encrypt=false;Trusted_Connection=False;"
+      WEATHER_KEY_API: ""
+      NEWS_KEY_API: ""
+    ports:
+      - "5000:5000"
+      - "3000:3000"
+    depends_on:
+      - db
+    networks:
+      - devnet
+
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "Mypassword12345*"
+    ports:
+      - "1433:1433"
+    networks:
+      - devnet
+
+networks:
+  devnet:
